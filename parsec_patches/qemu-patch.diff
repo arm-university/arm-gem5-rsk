@@ -1,0 +1,63 @@
+--- parsec-3.0_nopatch/pkgs/libs/hooks/src/hooks.c	2013-07-28 15:39:06.000000000 +0100
++++ parsec-3.0_qemu/pkgs/libs/hooks/src/hooks.c	2017-07-07 14:52:53.288987352 +0100
+@@ -42,6 +42,7 @@
+ #include "include/hooks.h"
+ #include "config.h"
+ 
++#include <stdint.h>
+ #include <stdio.h>
+ #include <assert.h>
+ 
+@@ -84,6 +85,30 @@
+ static int num_bench_ends = 0;
+ #endif
+ 
++//These functions allow to create checkpoints in the hooks during simulations with gem5
++static void m5_checkpoint(uint64_t x, uint64_t y) {
++        register uint64_t x0 asm("x0") = x;
++        register uint64_t x1 asm("x1") = y;
++        asm volatile (".inst 0xff430110;":: "r" (x0), "r" (x1));
++};
++static __attribute__((optimize("O0"))) void m5_exit(uint64_t x)
++{
++        register uint64_t x0 asm("x0") = x;
++        asm volatile (".inst 0xff210110;":: "r" (x0));
++};
++static __attribute__((optimize("O0"))) void m5_reset_stats(uint64_t x, uint64_t y)
++{
++        register uint64_t x0 asm("x0") = x;
++        register uint64_t x1 asm("x1") = y;
++        asm volatile (".inst 0xff400110;":: "r" (x0), "r" (x1));
++};
++static __attribute__((optimize("O0"))) void m5_dump_stats(uint64_t x, uint64_t y)
++{
++        register uint64_t x0 asm("x0") = x;
++        register uint64_t x1 asm("x1") = y;
++        asm volatile (".inst 0xff410110;":: "r" (x0), "r" (x1));
++};
++
+ /** \brief Variable for unique identifier of workload.
+  *
+  * This variable stores the unique identifier of the current benchmark program.
+@@ -195,6 +220,10 @@
+   #if ENABLE_PTLSIM_TRIGGER
+   ptlcall_switch_to_sim();
+   #endif //ENABLE_PTLSIM_TRIGGER
++
++  printf("[GEM5]  Beginning of ROI\n");
++  m5_checkpoint(0,0);
++  m5_reset_stats(0,0);
+ }
+ 
+ 
+@@ -221,6 +250,10 @@
+   time_end = (double)t.tv_sec+(double)t.tv_usec*1e-6;
+   #endif //ENABLE_TIMING
+ 
++  m5_dump_stats(0,0);
++  printf("[GEM5] Stats dumped.\n");
++  printf("[GEM5] Total time spent in ROI: %.3fs\n", time_end-time_begin);
++  
+   printf(HOOKS_PREFIX" Leaving ROI\n");
+   fflush(NULL);
+ }
