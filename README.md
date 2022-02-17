@@ -16,7 +16,7 @@ $ bash clone.sh
 ```
 
 The current release includes the following components:
-* **gem5_rsk.pdf**: the documentation
+* **gem5_rsk_gem5-21.2**: the documentation
 * **clone.sh**: a script to download all the required materials
 * **read_results.sh**: a script to read the gem5 statistics
 * **parsec_patches**: contains patches for compiling PARSEC for the gem5 Full-System simulation mode
