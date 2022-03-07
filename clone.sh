@@ -12,6 +12,8 @@ arm_gem5_rsk_git="https://github.com/arm-university/arm-gem5-rsk.git"
 gem5_dest="gem5"
 arm_gem5_rsk_dest="arm-gem5-rsk"
 
+gem5_tag="v21.2.0.0"
+
 git_clone()
 {
     local repo=$1
@@ -41,4 +43,9 @@ if [ $# = 1 ] && [ $1 = "-h" ]; then
 else
     git_clone "${gem5_git}" "${gem5_dest}"
     git_clone "${arm_gem5_rsk_git}" "${arm_gem5_rsk_dest}"
+
+    (
+        cd "${gem5_dest}"
+        git checkout -b "${gem5_tag}" "tags/${gem5_tag}"
+    )
 fi
