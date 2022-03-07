@@ -47,7 +47,7 @@ done
 
 echo  '#!/bin/bash
 
-PARSEC_DIR="/home/root/parsec-3.0"
+PARSEC_DIR="/root/parsec-3.0"
 cd $PARSEC_DIR
 pwd
 
