@@ -2,8 +2,6 @@
 
 This Research Starter Kit will guide you through Arm-based system modeling using the gem5 simulator and a 64-bit CPU model. This High-Performance In-order (HPI) CPU model is tuned to be representative of a modern in-order Armv8-A implementation.
 
-You can find more information about the Arm Research Enablement Kits at: [https://developer.arm.com/solutions/research/research-enablement-kits](https://developer.arm.com/solutions/research/research-enablement-kits)
-
 This Research Starter Kit is comprised of two main parts:
 
 1. **[gem5](https://gem5.googlesource.com/public/gem5)**: the source code for the [gem5 simulator](https://www.gem5.org/) 
