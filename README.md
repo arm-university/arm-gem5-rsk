@@ -22,3 +22,21 @@ The current release includes the following components:
 * **parsec_patches**: contains patches for compiling PARSEC for the gem5 Full-System simulation mode
 * **parsec_rcs**: contains a script for creating runscripts for PARSEC benchmarks
 * [Wiki](https://github.com/arm-university/arm-gem5-rsk/wiki): a cheat sheet, containing all code and examples provided in the documentation
+
+### This kit is suitable for computer system researchers looking to:
+- develop Arm-based system modeling experience using gem5
+- use a modern Armv8-A based processor model in their research
+
+### You will need intermediate knowledge of:
+- linux
+- computer architecture
+
+### And working knowledge of:
+- C++
+- Python
+
+### Topics covered
+- Introduction to gem5
+- Arm system modeling in gem5 in different modes
+- A High-Performance In-order (HPI) Arm-based CPU model
+- Benchmarking the HPI model
