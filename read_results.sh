@@ -25,7 +25,9 @@ inFile="$1"
 outFile="$2"
 
 bms=$(awk '{if ($1 ~ /^\[Benchmarks\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
+bms="${bms::-1}"
 ps=$(awk '{if ($1 ~ /^\[Parameters\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
+ps="${ps::-1}"
 of=$(awk '{if ($1 ~ /^\[Output\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1 && fi==0) {print $1;fi=1}}' $inFile)
 
 if [ -z "$outFile" ]; then 
@@ -49,12 +51,12 @@ echo "" >> $outFile
 
 for bm in $bms
 do
-    file_found=$(find . -type f -name "stats.txt" | grep $bm | head -1)
+    file_found=$(find . -type f -name "stats.txt" | grep "${bm::-1}" | head -1)
     if [ -z "$file_found" ]; then continue; fi
-    echo -n "$bm" >> $outFile
+    echo -n "${bm::-1}" >> $outFile
     for p in $ps
     do
-        val=$(grep $p $file_found | awk '{print $2}')
+        val=$(grep "${p::-1}" $file_found | awk '{print $2}')
         if [ -z "$val" ]; then 
             echo -ne "\tNAN" >> $outFile 
         else
