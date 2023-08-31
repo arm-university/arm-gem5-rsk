@@ -1,0 +1,43 @@
+From ad8f53cb021eb55f5103fad39bde097894a5507d Mon Sep 17 00:00:00 2001
+From: Richard Cooper <richard.cooper@arm.com>
+Date: Mon, 24 Oct 2022 09:34:12 +0100
+Subject: [PATCH 1/2] Fix read_results.sh to work with both Unix and DOS line
+ endings.
+
+Before this fix, DOS line endings would cause the output filename and
+benchmark names to be corrupted with a trailing `\r` character.
+
+This fix does a simple substitution to remove the `\r` character if
+present.
+
+Another option would be to use a regex `RS` flag with
+awk (`RS='\r?\n'), however this is only compatible with extended
+implementations of awk, so the current solution is likely to be more
+portable.
+---
+ read_results.sh | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ mode change 100644 => 100755 read_results.sh
+
+diff --git a/read_results.sh b/read_results.sh
+old mode 100644
+new mode 100755
+index a4608b1..e5a3bfd
+--- a/read_results.sh
++++ b/read_results.sh
+@@ -24,9 +24,9 @@ fi
+ inFile="$1"
+ outFile="$2"
+ 
+-bms=$(awk '{if ($1 ~ /^\[Benchmarks\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
+-ps=$(awk '{if ($1 ~ /^\[Parameters\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
+-of=$(awk '{if ($1 ~ /^\[Output\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1 && fi==0) {print $1;fi=1}}' $inFile)
++bms=$(awk '{if ($1 ~ /^\[Benchmarks\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) {sub("\r", "", $1); print $1}}' $inFile)
++ps=$(awk '{if ($1 ~ /^\[Parameters\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) {sub("\r", "", $1); print $1}}' $inFile)
++of=$(awk '{if ($1 ~ /^\[Output\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1 && fi==0) {sub("\r", "", $1); print $1; fi=1}}' $inFile)
+ 
+ if [ -z "$outFile" ]; then 
+     if [ -z "$of" ]; then
+-- 
+2.34.1
+

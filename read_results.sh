@@ -24,9 +24,9 @@ fi
 inFile="$1"
 outFile="$2"
 
-bms=$(awk '{if ($1 ~ /^\[Benchmarks\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
-ps=$(awk '{if ($1 ~ /^\[Parameters\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) print $1}' $inFile)
-of=$(awk '{if ($1 ~ /^\[Output\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1 && fi==0) {print $1;fi=1}}' $inFile)
+bms=$(awk '{if ($1 ~ /^\[Benchmarks\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) {sub("\r", "", $1); print $1}}' $inFile)
+ps=$(awk '{if ($1 ~ /^\[Parameters\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1) {sub("\r", "", $1); print $1}}' $inFile)
+of=$(awk '{if ($1 ~ /^\[Output\]/) fs=1; else if ($1 ~ /^\[/) fs=0; else if ($1 !~ /^$/ && fs==1 && fi==0) {sub("\r", "", $1); print $1; fi=1}}' $inFile)
 
 if [ -z "$outFile" ]; then 
     if [ -z "$of" ]; then

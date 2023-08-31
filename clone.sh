@@ -7,12 +7,12 @@ Clone the arm-gem5-rsk repository into the arm-gem5-rsk directory.
 
 error="ERROR: already in the arm-gem5-rsk directory. Move this script to a different location."
 
-gem5_git="https://gem5.googlesource.com/public/gem5"
+gem5_git="https://github.com/gem5/gem5.git"
 arm_gem5_rsk_git="https://github.com/arm-university/arm-gem5-rsk.git"
 gem5_dest="gem5"
 arm_gem5_rsk_dest="arm-gem5-rsk"
 
-gem5_tag="v21.2.0.0"
+gem5_tag="v23.0.0.1"
 
 git_clone()
 {
@@ -28,7 +28,7 @@ git_clone()
 }
 
 echo "ARM Research Starter Kit: System Modeling using gem5
-Find more information at: http://www.arm.com/ResearchEnablement/SystemModeling
+Find more information at: https://www.arm.com/resources/research/enablement
 ..."
 sleep 1
 
