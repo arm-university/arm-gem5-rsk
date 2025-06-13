@@ -1,5 +1,9 @@
 ## The Arm Research Starter Kit: System Modeling using gem5
 
+## Important
+### To download the latest stable version, please click below instead of using the "Download ZIP" button.
+### [Click here to download](https://github.com/arm-university/arm-gem5-rsk/releases/download/v1.0.0/arm-gem5-rsk-master.zip)
+
 This Research Starter Kit will guide you through Arm-based system modeling using the gem5 simulator and a 64-bit CPU model. This High-Performance In-order (HPI) CPU model is tuned to be representative of a modern in-order Armv8-A implementation.
 
 This Research Starter Kit is comprised of two main parts:
